@@ -1,0 +1,41 @@
+<html>
+<body class="bg">
+    <div class="container-stretch py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+              
+              <h3 class="mb-5">Login Portal</h3>
+              <div *ngIf="!loginError">
+                <div style="color: green;padding-bottom: 1.5em;">
+                  Enter your login details to proceed
+                </div>
+              </div>
+              <div *ngIf="loginError">
+                <div style="color:{{errorColor}};padding-bottom: 1.5em;">
+                  {{loginErrMsg}}
+                </div>
+              </div>
+              <form (ngSubmit)="onSubmit()">
+              <div class="form-outline mb-4">
+                <input [(ngModel)]="credentials.username" type="text" name="username" class="form-control form-control-lg" required autocomplete="username"/>
+                <label class="form-label">Enter your username</label>
+              </div>
+  
+              <div class="form-outline mb-4">
+                <input [(ngModel)]="credentials.password" type="password" name="password" class="form-control form-control-lg" required/>
+                <label class="form-label">Enter your password</label>
+              </div>
+  
+              <button class="btn btn-primary" type="submit">Login</button>
+              <button style="margin-left: 1em;" class="btn btn-secondary pull-right" (click)="clear()" type="button">Clear</button>
+              </form>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

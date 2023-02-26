@@ -1,0 +1,117 @@
+<section class="view intro intro-2">
+<body class="bg">
+<div class="container-stretch py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                    <div *ngIf="isAuthorized">
+                        <div *ngIf="currentview=='returnreqview'">
+                            <form (ngSubmit)="returnreqSubmit()">
+                                <h3>Return Request Form</h3>
+                                <br>
+                                <div *ngIf="errmsg" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{msgError}}
+                                </div>
+                                    <div class="form-outline mb-4">
+                                       <p *ngIf="errmsgName" style="color:red; margin-bottom: -0.1em ;">Please enter valid name</p>
+                                       <input [(ngModel)]="processrequest.name" type="text" name="name" class="form-control form-control-lg"  required />
+                                       <label class="form-label">Enter your name</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <p *ngIf="errmsgContact" style="color:red; margin-bottom: -0.1em ;">Please enter valid contact number</p>
+                                        <input [(ngModel)]="processrequest.contactno" type="number" name="contactno" class="form-control form-control-lg" />
+                                        <label class="form-label">Contact no</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <p *ngIf="errMsgComponentType" style="color:red; margin-bottom: -0.1em ;">Please choose the component type</p>
+                                        <select [(ngModel)]="processrequest.componentType" name="componentType" class="form-select form-select-lg mb-4"> 
+                                            <option value="Integral">Integral</option>
+                                            <option value="Accessory">Accessory</option>
+                                        </select>
+                                        <label class="form-label">Component Type</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <p *ngIf="errMsgcomponentName" style="color:red; margin-bottom: -0.1em ;">Please enter valid component Name</p>
+                                        <input [(ngModel)]="processrequest.componentName" type="text" name="componentName" class="form-control form-control-lg" />
+                                        <label class="form-label">Component Name</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <p *ngIf="errMsgQuantity" style="color:red; margin-bottom: -0.1em ;">Please provide the valid quantity</p>
+                                        <input [(ngModel)]="processrequest.quantity" type="number" min="1" name="quantity" class="form-control form-control-lg" />
+                                        <label class="form-label">Quantity</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input [(ngModel)]="processrequest.priority" type="checkbox" name="priority" value="true" class="form-check-input" />
+                                        <label class="form-label">Priority</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button style="margin-left: 10px;" type="button" (click)="clearForm()" class="btn btn-secondary">Clear Form</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div *ngIf="currentview=='processview'">
+                            <div class="form-outline mb-4">
+                                <label class="input-label">Request ID</label>
+                                <textarea [(ngModel)]="processresponse.requestId" type="text" name="priority" class="form-control form-control-lg" disabled></textarea>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="input-label" >Processing Charge</label>
+                                <input [(ngModel)]="processresponse.processingCharge" type="text" name="priority" class="form-control form-control-lg" disabled />
+                            </div>
+                            <div>
+                                <label class="input-label" >Packaging and Delivery Charge</label>    
+                                <input [(ngModel)]="processresponse.packagingAndDeliveryCharge" type="text" name="priority" class="form-control form-control-lg" disabled />                
+                            </div>
+                            <div>
+                                <label class="input-label">Date of delivery</label>    
+                                <input [(ngModel)]="processresponse.dateOfDelivery" type="text" name="priority" class="form-control form-control-lg" disabled />                
+                            </div>
+                            <br> 
+                            <div>
+                                <button class="btn btn-primary" (click)="confirmPaymentDetails()">Confirm Details</button>
+                                <button style="margin-left: 10px;" (click)=" returnReq()" class="btn btn-secondary">Go back</button>
+                            </div>
+                        </div>
+                        <div *ngIf="currentview=='paymentview'">
+                            <form (ngSubmit)="makePayment()">
+                                <div class="form-outline mb-4">
+                                    <input [(ngModel)]="payment.cardnumber" type="text" name="cardnumber" class="form-control form-control-lg" />
+                                    <label class="form-label">Enter card number</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input [(ngModel)]="payment.creditLimit" type="number" name="creditLimit" class="form-control form-control-lg" />
+                                    <label class="form-label">Enter the daily credit limit</label>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <input [(ngModel)]="payment.processingCharge" name="processingCharge" type="text" class="form-control form-control-lg" disabled />
+                                    <label class="form-label">Total Processing Charge</label>
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary" type="submit">Confirm and make Payment</button>
+                                    <button style="margin-left: 10px;" (click)="goBackToConfirmPage()" class="btn btn-secondary">Go Back</button>
+                                </div>
+                                <br>
+                                <div>
+                                    <div *ngIf="errmsg" class={{paymentClass}} role="alert">
+                                         {{paymentDone}}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div *ngIf="!isAuthorized" class="text-center">
+                        <p style="text-align: center;"> Whoops!!  Please login again </p>
+                        <a routerLink=""><button class="btn btn-primary" > Login</button></a>
+                        <br><br><br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <div *ngIf="isAuthorized"> 
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+</body>
+</section>
+

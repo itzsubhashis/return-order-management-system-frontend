@@ -1,0 +1,17 @@
+.active {
+    border-radius: 2em;
+}
+.btn-warning{
+    border-radius: 2em;
+    color: white;
+}
+
+.bg {
+    margin-bottom: -1.5%;
+    background: linear-gradient(to right, #ff512f,#dd2476);
+    margin-bottom:-1.5em;
+}
+
+li{
+    padding-left: 2em;
+}

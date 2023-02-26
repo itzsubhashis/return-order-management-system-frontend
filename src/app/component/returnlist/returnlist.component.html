@@ -1,0 +1,39 @@
+<section class="view intro intro-2">
+<body class="bg">
+    <div class="container-stretch py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div *ngIf="isAuthorized" class="card-body p-5 text-center">
+                        <table class="table table-bordered">
+                        <thead>
+                            <th>Serial number</th>
+                            <th>Request Id</th>
+                            <th>Card Number</th>
+                            <th>Processing Charge</th>
+                        </thead>
+                        <tr *ngFor="let payment of paymentList; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{payment.requestid}}</td>
+                            <td>{{payment.cardnumber}}</td>
+                            <td>{{payment.processingCharge}}</td>
+                        </tr>
+                        </table>
+                        <div *ngIf="paymentList.length==0" class="alert alert-info alert-dismissible fade show" role="alert">
+                            No records yet!
+                        </div>
+                    </div>
+                    <div class="card-body p-5 text-center">
+                    <div *ngIf="!isAuthorized">
+                        <br><br>
+                        <p style="text-align: center;"> Whoops!!  Please login again </p>
+                        <a routerLink=""><button class="btn btn-primary" > Login</button></a>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</section>
